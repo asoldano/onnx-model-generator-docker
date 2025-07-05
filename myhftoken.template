@@ -1,0 +1,11 @@
+# HuggingFace Token Template
+# 
+# To use this service, you need a HuggingFace token:
+# 1. Go to https://huggingface.co/settings/tokens
+# 2. Create a new token with "Read" permissions
+# 3. Copy the token and replace "YOUR_TOKEN_HERE" below
+# 4. Save this file as "myhftoken" (without the .template extension)
+# 5. Make sure the token file is in your .gitignore (it already is!)
+#
+# Format: hf_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+YOUR_TOKEN_HERE 
