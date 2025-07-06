@@ -144,16 +144,9 @@ curl http://127.0.0.1:8080/models
    curl http://127.0.0.1:8080/health
    ```
 
-3. **Test model generation** (replace `your_token` with your actual HuggingFace token):
+3. **Test model generation**
    ```bash
-   curl -X POST http://127.0.0.1:8080/generate \
-     -H "Content-Type: application/json" \
-     -d '{
-       "model": "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
-       "precision": "int4",
-       "execution_provider": "cpu",
-       "token": "hf_your_token_here"
-     }' -o test_model.zip
+   TOKEN=$(cat myhftoken) && curl -X POST http://127.0.0.1:8080/generate -H "Content-Type: application/json" -d "{\"model\": \"TinyLlama/TinyLlama-1.1B-Chat-v1.0\", \"precision\": \"int4\", \"execution_provider\": \"cpu\", \"token\": \"$TOKEN\"}" -o tinyllama_int4_model.zip
    ```
    
    **Expected result**: A ~636MB zip file containing the ONNX model will be downloaded to your local machine. Generation takes approximately 2-3 minutes.
@@ -303,61 +296,6 @@ Note: Not all HuggingFace models are supported. The `/models` endpoint can help 
    - If using podman, try `127.0.0.1:8080` instead of `localhost:8080`
    - Check if the container is actually running: `docker ps`
 
-### Getting Help
-
-If you encounter issues:
-1. **Start with int4 precision**: Most reliable for memory-constrained environments
-2. **Check container logs**: `docker logs onnx-generator` for detailed error messages
-3. **Verify token permissions**: Ensure your HuggingFace token has read access
-4. **Use working command**: Start with the tested TinyLlama int4 example above
-5. **Check model compatibility**: Use the `/models` endpoint for supported architectures
-
-### Successful Test Command
-
-This command is tested and works:
-```bash
-curl -X POST http://127.0.0.1:8080/generate \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
-    "precision": "int4",
-    "execution_provider": "cpu",
-    "token": "your_token_here"
-  }' -o working_model.zip
-```
-
-## Development and Contributing
-
-### Repository Setup
-
-When cloning this repository:
-
-1. **Set up your token** (if needed):
-   ```bash
-   cp myhftoken.template myhftoken
-   # Edit myhftoken and add your HuggingFace token
-   ```
-
-2. **Build and test**:
-   ```bash
-   docker build -t onnx-model-generator-service:latest .
-   docker run -d --name onnx-generator -p 8080:8080 onnx-model-generator-service:latest
-   python test_container.py
-   ```
-
-### Security Notes
-
-- **Never commit tokens**: The `.gitignore` file is configured to exclude all token files
-- **Use environment variables**: For production, pass tokens via environment variables or API parameters
-- **Check commits**: Always verify that no sensitive data is included before pushing
-
-### Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
 
 ## License
 

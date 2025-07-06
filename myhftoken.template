@@ -7,5 +7,4 @@
 # 4. Save this file as "myhftoken" (without the .template extension)
 # 5. Make sure the token file is in your .gitignore (it already is!)
 #
-# Format: hf_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 YOUR_TOKEN_HERE 
